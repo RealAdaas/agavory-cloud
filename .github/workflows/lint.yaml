@@ -1,23 +1,32 @@
-name: lint
+# This is a basic workflow to help you get started with Actions
 
-on: 
-  push:
-    branches: [ master ]
+name: Lint
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
   pull_request:
     branches: [ master ]
 
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  lint:
-    runs-on: ubuntu-20.04
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-    - name: lint
-      uses: luke142367/Docker-Lint-Action@v1.0.0
-      with:
-        target: Dockerfile
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: DockerLinter
+        uses: luke142367/Docker-Lint-Action@v1.1.1
+        with:
+          target: guestbook/Dockerfile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
